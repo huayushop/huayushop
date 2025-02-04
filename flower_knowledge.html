@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金沙洲花语花店 - 花语知识</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="theme.js"></script>
+    <script src="music.js"></script>
+    <script src="translations.js"></script>
+    <style>
+        .knowledge-item {
+            background: var(--background-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            display: flex;
+            gap: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .knowledge-item img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .knowledge-info {
+            flex: 1;
+        }
+
+        .knowledge-info h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        .knowledge-info p {
+            color: var(--text-color);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        [data-theme="dark"] .knowledge-item {
+            background: var(--light-background-color);
+            border: 1px solid #3a3a3a;
+        }
+
+        [data-theme="dark"] .knowledge-item img {
+            opacity: 0.9;
+        }
+
+        /* 搜索框样式 */
+        .search-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 16px;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .knowledge-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .knowledge-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="dark"] .search-box {
+            background-color: var(--light-background-color);
+            border-color: var(--secondary-color);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* 设置面板样式更新 */
+        .settings-panel {
+            width: 250px;
+        }
+
+        .language-switch {
+            margin-top: 15px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .language-switch select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .language-switch label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .language-switch select {
+            background: var(--light-background-color);
+            border-color: var(--secondary-color);
+        }
+
+        /* 轮播图样式 */
+        .slider {
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .slider-nav button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+
+        .slider-nav button.active {
+            background: white;
+        }
+
+        /* AI助手折叠状态样式 */
+        .ai-assistant {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            background: var(--background-color);
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .ai-assistant.collapsed {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--primary-color);
+            cursor: move;
+        }
+
+        .ai-assistant.collapsed .chat-header {
+            height: 100%;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: none;
+            border-radius: 50%;
+        }
+
+        .ai-assistant.collapsed .chat-header h3 {
+            display: none;
+        }
+
+        .ai-assistant.collapsed .chat-header button {
+            width: 100%;
+            height: 100%;
+            font-size: 16px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            background: none;
+        }
+
+        .ai-assistant.collapsed .chat-body {
+            display: none;
+        }
+
+        .ai-assistant.collapsed:hover {
+            transform: translate3d(0, -5px, 0);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 网站头部 -->
+    <header>
+        <h1>金沙洲花语花店</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html" data-translate="home">首页</a></li>
+                <li><a href="flower_display.html" data-translate="flower-display">花束展示</a></li>
+                <li><a href="flower_knowledge.html" data-translate="flower-knowledge">花语知识</a></li>
+                <li><a href="promotions.html" data-translate="promotions">优惠讯息</a></li>
+                <li><a href="flower_care.html" data-translate="flower-care">养护知识</a></li>
+                <li><a href="#footer" data-translate="contact">联系我们</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 深色模式开关 -->
+    <div class="theme-switch">
+        <label for="theme-toggle">
+            深色模式
+            <input type="checkbox" id="theme-toggle">
+        </label>
+    </div>
+
+    <!-- 音频元素 -->
+    <audio id="background-music" preload="auto" loop>
+        <source src="flower_music.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+
+    <!-- 轮播图 -->
+    <div class="slider">
+        <div class="slides">
+            <div class="slide">
+                <img src="flower1.jpg" alt="玫瑰花语">
+                <div class="slide-caption" data-translate="rose-meaning">玫瑰：爱情与热情的象征</div>
+            </div>
+            <div class="slide">
+                <img src="flower2.jpg" alt="百合花语">
+                <div class="slide-caption" data-translate="lily-meaning">百合：纯洁与高贵的化身</div>
+            </div>
+            <div class="slide">
+                <img src="sunflower.jpg" alt="向日葵花语">
+                <div class="slide-caption" data-translate="sunflower-meaning">向日葵：忠诚与希望的代表</div>
+            </div>
+        </div>
+        <div class="slider-nav"></div>
+    </div>
+
+    <!-- 搜索框 -->
+    <div class="search-container">
+        <input type="text" class="search-box" data-translate="search-flowers" placeholder="搜索花语知识..." id="searchBox">
+    </div>
+
+    <!-- 花语知识内容 -->
+    <main class="flower-knowledge">
+        <div class="knowledge-item">
+            <img src="flower1.jpg" alt="玫瑰">
+            <div class="knowledge-info">
+                <h3>玫瑰</h3>
+                <p>玫瑰是爱情与美丽的象征，不同颜色的玫瑰有着不同的花语。红玫瑰代表热情真爱；粉玫瑰代表感动、爱的宣言、铭记于心；白玫瑰代表天真、纯洁、尊敬。</p>
+            </div>
+        </div>
+        <div class="knowledge-item">
+            <img src="flower2.jpg" alt="百合">
+            <div class="knowledge-info">
+                <h3>百合</h3>
+                <p>百合象征着纯洁、神圣和美好祝福。在中国，百合还有着百年好合的寓意，常被用于婚礼等喜庆场合。</p>
+            </div>
+        </div>
+        <div class="knowledge-item">
+            <img src="sunflower.jpg" alt="向日葵">
+            <div class="knowledge-info">
+                <h3>向日葵</h3>
+                <p>向日葵代表着信念、光辉、高傲、忠诚和爱慕。它始终追逐着太阳，寓意着积极向上的态度和对梦想的执着追求。</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 网站底部 -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 <span data-translate="flower-shop">花语鲜花超市</span> <span data-translate="copyright">版权所有</span></p>
+                <p><span data-translate="contact-phone">联系电话</span>：13600071086 <span data-translate="contact-email">邮箱</span>：yansirui_813@163.com</p>
+                <p><a href="gongzhong.html">微信公众号</a> <a href="weibo.html">微博</a></p>
+            </div>
+            <div class="footer-qrcode">
+                <img src="picture.jpg" alt="微信公众号二维码" class="qr-code-img">
+                <p data-translate="scan-qr">扫码关注公众号</p>
+                <p class="qr-name" data-translate="flower-shop">花语鲜花超市</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 设置按钮和面板 -->
+    <button class="settings-btn" id="settings-btn" aria-label="打开设置">⚙️</button>
+    <div class="settings-panel" id="settings-panel">
+        <div class="language-switch">
+            <label for="language-select" data-translate="language-settings">语言设置</label>
+            <select id="language-select">
+                <option value="zh-CN">简体中文</option>
+                <option value="zh-TW">繁體中文</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- AI花草知识助手 -->
+    <div class="ai-assistant">
+        <div class="chat-header">
+            <h3>AI花草知识助手</h3>
+            <button class="toggle-chat-btn" id="toggle-icon" onclick="toggleChat()">△</button>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="输入你的问题">
+                <button onclick="sendMessage()">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 轮播图功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelector('.slides');
+            const slideElements = document.querySelectorAll('.slide');
+            const nav = document.querySelector('.slider-nav');
+            let currentSlide = 0;
+            let slideInterval;
+
+            // 创建导航按钮
+            slideElements.forEach((_, index) => {
+                const button = document.createElement('button');
+                button.addEventListener('click', () => goToSlide(index));
+                nav.appendChild(button);
+            });
+
+            const navButtons = nav.querySelectorAll('button');
+            navButtons[0].classList.add('active');
+
+            function goToSlide(index) {
+                slides.style.transform = `translateX(-${index * 100}%)`;
+                currentSlide = index;
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                navButtons[index].classList.add('active');
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slideElements.length;
+                goToSlide(currentSlide);
+            }
+
+            function startSlideshow() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopSlideshow() {
+                clearInterval(slideInterval);
+            }
+
+            startSlideshow();
+
+            // 鼠标悬停时暂停轮播
+            slides.addEventListener('mouseenter', stopSlideshow);
+            slides.addEventListener('mouseleave', startSlideshow);
+        });
+
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.getElementById('searchBox');
+            const knowledgeItems = document.querySelectorAll('.knowledge-item');
+
+            searchBox.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+
+                knowledgeItems.forEach(item => {
+                    const title = item.querySelector('h3').textContent.toLowerCase();
+                    const content = item.querySelector('p').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || content.includes(searchTerm)) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // 聊天窗口控制函数
+        function toggleChat() {
+            const aiAssistant = document.querySelector('.ai-assistant');
+            const chatBody = document.getElementById('chat-body');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            aiAssistant.classList.toggle('collapsed');
+            chatBody.classList.toggle('collapsed');
+            
+            if (aiAssistant.classList.contains('collapsed')) {
+                toggleIcon.textContent = 'AI';
+            } else {
+                toggleIcon.textContent = '△';
+            }
+        }
+
+        // AI助手拖动功能
+        let isDragging = false;
+        let currentX = 0;
+        let currentY = 0;
+        let initialX = 0;
+        let initialY = 0;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        const aiAssistant = document.querySelector('.ai-assistant');
+        const chatHeader = document.querySelector('.chat-header');
+
+        function dragStart(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+
+            if (e.target === chatHeader || e.target.parentNode === chatHeader) {
+                isDragging = true;
+            }
+        }
+
+        function dragEnd() {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+                xOffset = currentX;
+                yOffset = currentY;
+
+                setTranslate(currentX, currentY, aiAssistant);
+            }
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+
+        chatHeader.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        // 发送消息函数
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const messagesContainer = document.getElementById('chat-messages');
+            const userMessage = input.value.trim();
+            
+            if (!userMessage) return;
+
+            // 显示用户消息
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user';
+            userDiv.textContent = userMessage;
+            messagesContainer.appendChild(userDiv);
+
+            // 显示加载状态
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message bot loading';
+            loadingDiv.textContent = '正在思考...';
+            messagesContainer.appendChild(loadingDiv);
+
+            try {
+                const response = await fetch(config.apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${config.apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: "glm-4-plus",
+                        messages: [{
+                            role: "user",
+                            content: userMessage
+                        }],
+                        stream: false
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // 移除加载状态
+                loadingDiv.remove();
+
+                // 显示助手回复
+                const assistantDiv = document.createElement('div');
+                assistantDiv.className = 'message bot';
+                assistantDiv.textContent = data.choices[0].message.content;
+                messagesContainer.appendChild(assistantDiv);
+
+                // 清空输入框
+                input.value = '';
+
+                // 滚动到底部
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            } catch (error) {
+                loadingDiv.textContent = '抱歉，发生了错误，请稍后重试。';
+                loadingDiv.className = 'message bot error';
+                console.error('Error:', error);
+            }
+        }
+
+        // 监听回车键发送消息
+        document.getElementById('user-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // 平滑滚动到底部
+        document.querySelector('a[href="#footer"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#footer').scrollIntoView({ 
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+
+</html>

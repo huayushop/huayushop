@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金沙洲花语花店 - 花束展示</title>
+    <!-- 引入 CSS 文件 -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="theme.js"></script>
+    <script src="music.js"></script>
+    <style>
+        .flower-gallery {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .flower-card {
+            background: var(--background-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .flower-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .flower-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .flower-info {
+            padding: 20px;
+        }
+
+        .flower-name {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+        }
+
+        .flower-description {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin: 0 0 15px 0;
+            line-height: 1.5;
+        }
+
+        .flower-price {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        [data-theme="dark"] .flower-card {
+            background: var(--light-background-color);
+            border: 1px solid #3a3a3a;
+        }
+
+        [data-theme="dark"] .flower-image {
+            opacity: 0.9;
+        }
+
+        /* 设置面板样式 */
+        .settings-panel {
+            width: 250px;
+        }
+
+        .language-switch {
+            margin-top: 15px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .language-switch select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .language-switch label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .language-switch select {
+            background: var(--light-background-color);
+            border-color: var(--secondary-color);
+        }
+
+        .flower-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .order-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .order-btn:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+        }
+
+        .flower-price {
+            margin: 0;
+        }
+
+        /* 自定义弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--background-color);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            animation: modalShow 0.3s ease;
+        }
+
+        @keyframes modalShow {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h3 {
+            color: var(--primary-color);
+            margin: 0 0 15px 0;
+        }
+
+        .modal-content p {
+            margin: 0 0 20px 0;
+            color: var(--text-color);
+        }
+
+        .modal-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+        }
+
+        [data-theme="dark"] .modal-content {
+            background-color: var(--dark-background-color);
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 网站头部 -->
+    <header>
+        <h1>金沙洲花语花店</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html" data-translate="home">首页</a></li>
+                <li><a href="flower_display.html" data-translate="flower-display">花束展示</a></li>
+                <li><a href="flower_knowledge.html" data-translate="flower-knowledge">花语知识</a></li>
+                <li><a href="promotions.html" data-translate="promotions">优惠讯息</a></li>
+                <li><a href="flower_care.html" data-translate="flower-care">养护知识</a></li>
+                <li><a href="#footer" data-translate="contact">联系我们</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 音频元素 -->
+    <audio id="background-music" preload="auto" loop>
+        <source src="flower_music.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+
+    <!-- 花束展示区域 -->
+    <main class="flower-gallery">
+        <div class="flower-card">
+            <img src="flower1.jpg" alt="浪漫玫瑰束" class="flower-image">
+            <div class="flower-info">
+                <h3 class="flower-name">浪漫玫瑰束</h3>
+                <p class="flower-description">精选新鲜红玫瑰，搭配满天星和绿叶，象征着浓浓的爱意。</p>
+                <div class="flower-bottom">
+                    <p class="flower-price">¥3</p>
+                    <button class="order-btn" onclick="orderFlower('浪漫玫瑰束', 3)">预定</button>
+                </div>
+            </div>
+        </div>
+        <div class="flower-card">
+            <img src="flower2.jpg" alt="优雅百合束" class="flower-image">
+            <div class="flower-info">
+                <h3 class="flower-name">优雅百合束</h3>
+                <p class="flower-description">洁白的百合，散发着淡雅的清香。</p>
+                <div class="flower-bottom">
+                    <p class="flower-price">¥8</p>
+                    <button class="order-btn" onclick="orderFlower('优雅百合束', 8)">预定</button>
+                </div>
+            </div>
+        </div>
+        <div class="flower-card">
+            <img src="flower3.jpg" alt="温馨康乃馨束" class="flower-image">
+            <div class="flower-info">
+                <h3 class="flower-name">温馨康乃馨束</h3>
+                <p class="flower-description">粉色康乃馨传递着温馨与关爱。</p>
+                <div class="flower-bottom">
+                    <p class="flower-price">¥8</p>
+                    <button class="order-btn" onclick="orderFlower('温馨康乃馨束', 8)">预定</button>
+                </div>
+            </div>
+        </div>
+        <div class="flower-card">
+            <img src="flower4.jpg" alt="神秘紫罗兰束" class="flower-image">
+            <div class="flower-info">
+                <h3 class="flower-name">神秘紫罗兰束</h3>
+                <p class="flower-description">紫色紫罗兰散发着神秘的气息。</p>
+                <div class="flower-bottom">
+                    <p class="flower-price">¥8</p>
+                    <button class="order-btn" onclick="orderFlower('神秘紫罗兰束', 8)">预定</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- AI花草知识助手 -->
+    <div class="ai-assistant">
+        <div class="chat-header">
+            <h3>AI花草知识助手</h3>
+            <button class="toggle-chat-btn" id="toggle-icon" onclick="toggleChat()">△</button>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="输入你的问题">
+                <button onclick="sendMessage()">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 网站底部 -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+        <p>&copy; 2025 金沙洲花语花店 版权所有</p>
+        <p>联系电话：13600071086 邮箱：yansirui_813@163.com</p>
+                <p><a href="weibo.html">微博</a></p>
+            </div>
+            <div class="footer-qrcode">
+                <img src="picture.jpg" alt="微信公众号二维码" class="qr-code-img">
+                <p>扫码关注公众号</p>
+                <p class="qr-name">花语鲜花超市</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 设置按钮和面板 -->
+    <button class="settings-btn" id="settings-btn" aria-label="打开设置">⚙️</button>
+    <div class="settings-panel" id="settings-panel">
+        <div class="theme-switch">
+            <label for="theme-toggle">
+                深色模式
+                <input type="checkbox" id="theme-toggle">
+            </label>
+        </div>
+        <div class="language-switch">
+            <label for="language-select">语言设置</label>
+            <select id="language-select">
+                <option value="zh-CN">简体中文</option>
+                <option value="zh-TW">繁體中文</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 在body末尾添加弹窗HTML -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <h3>预定成功！</h3>
+            <p>我们的客服将第一时间通知您！</p>
+            <button class="modal-btn" onclick="closeModal()">确定</button>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        // 聊天窗口控制函数
+        function toggleChat() {
+            const aiAssistant = document.querySelector('.ai-assistant');
+            const chatBody = document.getElementById('chat-body');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            aiAssistant.classList.toggle('collapsed');
+            chatBody.classList.toggle('collapsed');
+            
+            if (aiAssistant.classList.contains('collapsed')) {
+                toggleIcon.textContent = 'AI';
+            } else {
+                toggleIcon.textContent = '△';
+            }
+        }
+
+        // 发送消息函数
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const messagesContainer = document.getElementById('chat-messages');
+            const userMessage = input.value.trim();
+            
+            if (!userMessage) return;
+
+            // 显示用户消息
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user';
+            userDiv.textContent = userMessage;
+            messagesContainer.appendChild(userDiv);
+
+            // 显示加载状态
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message bot loading';
+            loadingDiv.textContent = '正在思考...';
+            messagesContainer.appendChild(loadingDiv);
+
+            try {
+                const response = await fetch(config.apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${config.apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: "glm-4-plus",
+                        messages: [{
+                            role: "user",
+                            content: userMessage
+                        }],
+                        stream: false
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // 移除加载状态
+                loadingDiv.remove();
+
+                // 显示助手回复
+                const assistantDiv = document.createElement('div');
+                assistantDiv.className = 'message bot';
+                assistantDiv.textContent = data.choices[0].message.content;
+                messagesContainer.appendChild(assistantDiv);
+
+                // 清空输入框
+                input.value = '';
+
+                // 滚动到底部
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            } catch (error) {
+                loadingDiv.textContent = '抱歉，发生了错误，请稍后重试。';
+                loadingDiv.className = 'message bot error';
+                console.error('Error:', error);
+            }
+        }
+
+        // AI助手拖动功能
+        let isDragging = false;
+        let offsetX, offsetY;
+        const aiAssistant = document.querySelector('.ai-assistant');
+
+        function startDrag(e) {
+            isDragging = true;
+            offsetX = e.clientX - aiAssistant.offsetLeft;
+            offsetY = e.clientY - aiAssistant.offsetTop;
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                aiAssistant.style.left = (e.clientX - offsetX) + 'px';
+                aiAssistant.style.top = (e.clientY - offsetY) + 'px';
+            }
+        }
+
+        function endDrag() {
+            isDragging = false;
+        }
+
+        const chatHeader = document.querySelector('.chat-header');
+        chatHeader.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', endDrag);
+
+        // 监听回车键发送消息
+        document.getElementById('user-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // 显示弹窗
+        function showModal() {
+            const modal = document.getElementById('orderModal');
+            modal.style.display = 'flex';
+        }
+
+        // 关闭弹窗
+        function closeModal() {
+            const modal = document.getElementById('orderModal');
+            modal.style.display = 'none';
+        }
+
+        // 预定花束函数
+        function orderFlower(flowerName, price) {
+            // 显示预定成功弹窗
+            showModal();
+        }
+
+        // 平滑滚动到底部
+        document.querySelector('a[href="#footer"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#footer').scrollIntoView({ 
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+
+</html>

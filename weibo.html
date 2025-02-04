@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金沙洲花语花店 - 微博</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="theme.js"></script>
+    <script src="translations.js"></script>
+</head>
+
+<body>
+    <!-- 网站头部 -->
+    <header>
+        <h1>金沙洲花语花店</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html" data-translate="home">首页</a></li>
+                <li><a href="flower_display.html" data-translate="flower-display">花束展示</a></li>
+                <li><a href="flower_knowledge.html" data-translate="flower-knowledge">花语知识</a></li>
+                <li><a href="promotions.html" data-translate="promotions">优惠讯息</a></li>
+                <li><a href="flower_care.html" data-translate="flower-care">养护知识</a></li>
+                <li><a href="#footer" data-translate="contact">联系我们</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 微博主要内容 -->
+    <div class="social-page">
+        <h2>官方微博</h2>
+        <div class="social-content">
+            <p class="social-description">
+                欢迎关注我们的官方微博，获取最新花艺资讯、优惠活动和花艺技巧分享！
+            </p>
+            <div class="social-features">
+                <div class="feature-item">
+                    <h3>每日花语</h3>
+                    <p>每天分享一种花的花语和养护小贴士</p>
+                </div>
+                <div class="feature-item">
+                    <h3>实时互动</h3>
+                    <p>在线解答花艺相关问题，分享花艺心得</p>
+                </div>
+                <div class="feature-item">
+                    <h3>优惠福利</h3>
+                    <p>微博粉丝专享优惠和抽奖活动</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 网站底部 -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2025 <span data-translate="flower-shop">花语鲜花超市</span> <span data-translate="copyright">版权所有</span></p>
+                <p><span data-translate="contact-phone">联系电话</span>：13600071086 <span data-translate="contact-email">邮箱</span>：yansirui_813@163.com</p>
+                <div class="social-links">
+                    <a href="gongzhong.html" class="social-link">
+                        <span data-translate="wechat-official">公众号</span>
+                    </a>
+                    <a href="weibo.html" class="social-link">
+                        <span data-translate="weibo-official">微博</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-qrcode">
+                <img src="picture.jpg" alt="微信公众号二维码" class="qr-code-img">
+                <p data-translate="scan-qr">扫码关注公众号</p>
+                <p class="qr-name" data-translate="flower-shop">花语鲜花超市</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 设置按钮和面板 -->
+    <button class="settings-btn" id="settings-btn" aria-label="打开设置">⚙️</button>
+    <div class="settings-panel" id="settings-panel">
+        <div class="theme-switch">
+            <label for="theme-toggle" data-translate="dark-mode">
+                深色模式
+                <input type="checkbox" id="theme-toggle">
+            </label>
+        </div>
+        <div class="language-switch">
+            <label for="language-select" data-translate="language-settings">语言设置</label>
+            <select id="language-select">
+                <option value="zh-CN">简体中文</option>
+                <option value="zh-TW">繁體中文</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+            </select>
+        </div>
+    </div>
+
+    <script>
+        // 平滑滚动到底部
+        document.querySelector('a[href="#footer"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#footer').scrollIntoView({ 
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+
+</html>

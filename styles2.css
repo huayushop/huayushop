@@ -1,0 +1,308 @@
+/* 全局样式 */
+:root {
+    --primary-color: #6d3b47;
+    --secondary-color: #c27a8d;
+    --background-color: #fff;
+    --light-background-color: #f9f3f3;
+    --text-color: #333;
+    --light-text-color: #777;
+    --button-hover-color: #d392a3;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+}
+
+/* 网站头部样式 */
+header {
+    background-color: var(--light-background-color);
+    text-align: center;
+    padding: 20px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 100;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    letter-spacing: 1px;
+}
+
+/* 导航菜单样式 */
+nav {
+    margin-top: 15px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+/* 轮播图样式 */
+.slider {
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    animation: slide 18s infinite;
+}
+
+@keyframes slide {
+    0%, 100% {
+        background-image: url('slider1.jpg');
+    }
+    33% {
+        background-image: url('slider2.jpg');
+    }
+    66% {
+        background-image: url('slider3.jpg');
+    }
+}
+
+.slider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.slider h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    color: #fff;
+    font-size: 3.5rem;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 80%;
+}
+
+/* 花店简介样式 */
+.about {
+    padding: 60px 20px;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about h2 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+}
+
+.about p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* 热门花束推荐样式 */
+.hot-flowers {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: var(--light-background-color);
+}
+
+.hot-flowers h2 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+}
+
+.flower-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.flower-item {
+    width: 300px;
+    background-color: var(--background-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.flower-item:hover {
+    transform: translateY(-12px);
+}
+
+.flower-item img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.flower-item h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin: 20px 0 15px;
+}
+
+.flower-item p {
+    font-size: 1rem;
+    padding: 0 20px 20px;
+    opacity: 0.8;
+}
+
+.flower-item .price {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+/* 花束展示页样式 */
+.flower-display {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: var(--light-background-color);
+}
+
+.flower-display h2 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+}
+
+/* 用户评价样式 */
+.reviews {
+    padding: 60px 20px;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.reviews h2 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+}
+
+.review-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.review-item {
+    background-color: var(--light-background-color);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(50% - 30px);
+    min-width: 300px;
+}
+
+.review-item p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.review-item span {
+    font-style: italic;
+    color: var(--light-text-color);
+}
+
+/* 网站底部样式 */
+footer {
+    background-color: var(--light-background-color);
+    text-align: center;
+    padding: 30px 0;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+}
+
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--secondary-color);
+}
+
+/* 背景音乐控制按钮样式 */
+#music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 101;
+}
+
+#play-pause {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#play-pause:hover {
+    background-color: var(--button-hover-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.2rem;
+    }
+
+    nav ul li {
+        margin: 8px 10px;
+    }
+
+    nav ul li a {
+        font-size: 1.1rem;
+    }
+
+    .slider

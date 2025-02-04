@@ -1,0 +1,242 @@
+/* 全局样式 */
+:root {
+    --primary-color: #6d3b47;
+    --secondary-color: #c27a8d;
+    --background-color: #fff;
+    --light-background-color: #f9f3f3;
+    --text-color: #333;
+    --light-text-color: #777;
+    --button-hover-color: #d392a3;
+    --body-font-size: 16px;
+    --header-font-size: 2.8rem;
+    --subheader-font-size: 2.2rem;
+    --nav-font-size: 1.2rem;
+    --info-font-size: 1rem;
+    --line-height-base: 1.6;
+    --line-height-loose: 1.8;
+    --button-padding: 8px 12px;
+    --border-radius-small: 5px;
+    --border-radius-medium: 10px;
+    --box-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --box-shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-size: var(--body-font-size);
+    line-height: var(--line-height-base);
+}
+
+/* 网站头部样式 */
+header {
+    background-color: var(--light-background-color);
+    text-align: center;
+    padding: 30px 0;
+    box-shadow: var(--box-shadow-light);
+    position: relative;
+    z-index: 100;
+}
+
+header h1 {
+    margin: 0;
+    font-size: var(--header-font-size);
+    color: var(--primary-color);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+/* 导航菜单样式 */
+nav {
+    margin-top: 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    margin: 0 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: var(--nav-font-size);
+    padding: var(--button-padding);
+    border-radius: var(--border-radius-small);
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: var(--secondary-color);
+    color: #fff;
+    box-shadow: var(--box-shadow-light);
+}
+
+/* 微信公众号页面样式 */
+.wechat-public-account {
+    padding: 80px 20px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.wechat-public-account h2 {
+    font-size: var(--subheader-font-size);
+    color: var(--primary-color);
+    margin-bottom: 50px;
+}
+
+.qr-code {
+    margin-bottom: 40px;
+}
+
+.qr-code img {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--box-shadow-medium);
+    transition: transform 0.3s ease;
+}
+
+.qr-code img:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.info {
+    text-align: left;
+    line-height: var(--line-height-loose);
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: var(--info-font-size);
+}
+
+.info p,
+.info ul {
+    margin: 15px 0;
+}
+
+.info ul {
+    padding-left: 20px;
+}
+
+/* 网站底部样式 */
+footer {
+    background-color: var(--light-background-color);
+    text-align: center;
+    padding: 40px 0;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+    margin: 10px 0;
+    font-size: 0.95rem;
+}
+
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* 背景音乐控制按钮样式 */
+#music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 101;
+}
+
+#play-pause {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#play-pause:hover {
+    background-color: var(--button-hover-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    :root {
+        --header-font-size: 2.2rem;
+        --nav-font-size: 1.1rem;
+    }
+
+    header {
+        padding: 25px 0;
+    }
+
+    nav {
+        margin-top: 15px;
+    }
+
+    nav ul li {
+        margin: 0 15px;
+    }
+
+   .qr-code img {
+        width: 250px;
+        height: 250px;
+    }
+
+  .wechat-public-account {
+        padding: 60px 20px;
+    }
+
+  .wechat-public-account h2 {
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --subheader-font-size: 2rem;
+        --info-font-size: 0.9rem;
+    }
+
+  .qr-code img {
+        width: 200px;
+        height: 200px;
+    }
+
+  .wechat-public-account {
+        padding: 50px 20px;
+    }
+
+  .wechat-public-account h2 {
+        margin-bottom: 30px;
+    }
+
+    footer {
+        padding: 30px 0;
+    }
+}
