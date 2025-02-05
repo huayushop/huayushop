@@ -9,9 +9,290 @@
     <link rel="stylesheet" href="flower_care.css">
     <script src="config.js"></script>
     <script src="theme.js"></script>
-    <script src="music.js"></script>
     <script src="translations.js"></script>
     <script src="slider.js"></script>
+    <style>
+        /* AI助手样式 */
+        .ai-assistant {
+            position: fixed;
+            bottom: 50px;
+            right: 30px;
+            width: 350px;
+            background: var(--background-color);
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            transform-origin: bottom right;
+        }
+
+        .ai-assistant.collapsed {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: linear-gradient(145deg, #ffb6c1, #ffc0cb);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .ai-assistant.collapsed:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 182, 193, 0.6);
+        }
+
+        [data-theme="dark"] .ai-assistant.collapsed {
+            background: linear-gradient(145deg, #ff9cad, #ffb6c1);
+            box-shadow: 0 4px 15px rgba(255, 156, 173, 0.5);
+        }
+
+        /* AI助手头部样式 */
+        .chat-header {
+            padding: 15px;
+            background: var(--primary-color);
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .toggle-chat-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-chat-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 深色模式开关样式 */
+        .theme-switch {
+            position: fixed;
+            top: 20px;
+            right: 80px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            font-size: 0.9rem;
+        }
+
+        .theme-switch label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-color);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .theme-switch input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: #ff69b4;  /* 使用更鲜艳的粉色 */
+            border: 2px solid #ff69b4;
+            border-radius: 3px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .theme-switch input[type="checkbox"]:checked {
+            background-color: #ff69b4;
+            border-color: #ff69b4;
+        }
+
+        [data-theme="dark"] .theme-switch input[type="checkbox"] {
+            accent-color: #ff8fab;  /* 深色模式下使用较浅的粉色 */
+            border-color: #ff8fab;
+        }
+
+        [data-theme="dark"] .theme-switch input[type="checkbox"]:checked {
+            background-color: #ff8fab;
+            border-color: #ff8fab;
+        }
+
+        /* 语言设置按钮和面板样式 */
+        .settings-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        .settings-btn:hover {
+            background-color: var(--button-hover-color);
+            transform: scale(1.05);
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background-color: var(--background-color);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            min-width: 150px;
+            border: 1px solid var(--border-color);
+        }
+
+        .settings-panel.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .language-switch select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .settings-panel {
+            background-color: var(--light-background-color);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 搜索框样式 */
+        .search-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            font-size: 1rem;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(194, 122, 141, 0.4);
+            border-color: var(--secondary-color);
+        }
+
+        [data-theme="dark"] .search-input {
+            background-color: var(--light-background-color);
+            border-color: var(--secondary-color);
+        }
+
+        .doc-item {
+            transition: all 0.3s ease;
+        }
+
+        .doc-item.hidden {
+            display: none;
+        }
+
+        /* 搜索结果样式 */
+        .search-results {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .result-item {
+            background: var(--background-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .result-item.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .social-link:hover {
+            background: var(--button-hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .social-link {
+            background: var(--light-background-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .social-link:hover {
+            background: var(--button-hover-color);
+            border-color: transparent;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,16 +311,6 @@
         </nav>
     </header>
 
-    <!-- 音乐控制按钮 -->
-    <div id="music-control" class="music-control">
-        <button id="play-pause" class="music-btn" aria-label="播放/暂停背景音乐">
-            <span class="music-icon">🎵</span>
-        </button>
-        <div class="volume-control">
-            <input type="range" id="volume-slider" min="0" max="100" value="100">
-        </div>
-    </div>
-
     <!-- 深色模式开关 -->
     <div class="theme-switch">
         <label for="theme-toggle">
@@ -47,12 +318,26 @@
             <input type="checkbox" id="theme-toggle">
         </label>
     </div>
+    
+    <!-- 语言设置按钮和面板 -->
+    <button class="settings-btn" id="settings-btn" aria-label="打开设置">⚙️</button>
+    <div class="settings-panel" id="settings-panel">
+        <div class="language-switch">
+            <label for="language-select">语言设置</label>
+            <select id="language-select">
+                <option value="zh-CN">简体中文</option>
+                <option value="zh-TW">繁體中文</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+            </select>
+        </div>
+    </div>
 
-    <!-- 音频元素 -->
-    <audio id="background-music" preload="auto" loop>
-        <source src="flower_music.mp3" type="audio/mpeg">
-        您的浏览器不支持音频播放。
-    </audio>
+    <!-- 搜索框 -->
+    <div class="search-container">
+        <input type="text" id="searchBox" class="search-input" placeholder="搜索植物养护知识...">
+    </div>
 
     <!-- 主要内容区 -->
     <main class="care-content">
@@ -95,9 +380,16 @@
     <footer id="footer">
         <div class="footer-content">
             <div class="footer-info">
-        <p>&copy; 2025 金沙洲花语花店 版权所有</p>
-        <p>联系电话：13600071086 邮箱：yansirui_813@163.com</p>
-        <p><a href="gongzhong.html">微信公众号</a> <a href="weibo">微博</a></p>
+                <p>&copy; 2025 金沙洲花语花店 版权所有</p>
+                <p>联系电话：13600071086 邮箱：yansirui_813@163.com</p>
+                <div class="social-links">
+                    <a href="gongzhong.html" class="social-link">
+                        <span>公众号</span>
+                    </a>
+                    <a href="weibo.html" class="social-link">
+                        <span>微博</span>
+                    </a>
+                </div>
             </div>
             <div class="footer-qrcode">
                 <img src="picture.jpg" alt="微信公众号二维码" class="qr-code-img">
@@ -106,27 +398,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- 设置按钮和面板 -->
-    <button class="settings-btn" id="settings-btn" aria-label="打开设置">⚙️</button>
-    <div class="settings-panel" id="settings-panel">
-        <div class="theme-switch">
-            <label for="theme-toggle">
-                <span data-translate="dark-mode">深色模式</span>
-                <input type="checkbox" id="theme-toggle">
-            </label>
-        </div>
-        <div class="language-switch">
-            <label for="language-select" data-translate="language-settings">语言设置</label>
-            <select id="language-select">
-                <option value="zh-CN">简体中文</option>
-                <option value="zh-TW">繁體中文</option>
-                <option value="en">English</option>
-                <option value="ja">日本語</option>
-                <option value="ko">한국어</option>
-            </select>
-        </div>
-    </div>
 
     <!-- AI花草知识助手 -->
     <div class="ai-assistant">
@@ -143,106 +414,10 @@
         </div>
     </div>
 
+    <!-- 添加搜索结果容器 -->
+    <div class="search-results"></div>
+
     <script>
-        // 音乐播放相关功能
-        window.addEventListener('DOMContentLoaded', function() {
-            const music = document.getElementById('background-music');
-            const playPauseButton = document.getElementById('play-pause');
-            const volumeSlider = document.getElementById('volume-slider');
-            const musicIcon = playPauseButton.querySelector('.music-icon');
-            
-            // 从localStorage读取音量设置
-            const savedVolume = localStorage.getItem('musicVolume');
-            if (savedVolume !== null) {
-                music.volume = savedVolume;
-                volumeSlider.value = savedVolume * 100;
-            }
-
-            // 音量控制
-            volumeSlider.addEventListener('input', function() {
-                const volume = this.value / 100;
-                music.volume = volume;
-                localStorage.setItem('musicVolume', volume);
-            });
-
-            // 从localStorage读取播放状态
-            const isPlaying = localStorage.getItem('musicPlaying') === 'true';
-            if (isPlaying) {
-                const playPromise = music.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        musicIcon.textContent = '🔊';
-                    }).catch(() => {
-                        musicIcon.textContent = '🎵';
-                    });
-                }
-            }
-
-            function toggleMusic() {
-                if (music.paused) {
-                    let playPromise = music.play();
-                    if (playPromise !== undefined) {
-                        playPromise.then(() => {
-                            musicIcon.textContent = '🔊';
-                            localStorage.setItem('musicPlaying', 'true');
-                            console.log("音乐开始播放");
-                        })
-                        .catch(error => {
-                            console.error("播放失败:", error);
-                            musicIcon.textContent = '🎵';
-                            localStorage.setItem('musicPlaying', 'false');
-                        });
-                    }
-                } else {
-                    music.pause();
-                    musicIcon.textContent = '🎵';
-                    localStorage.setItem('musicPlaying', 'false');
-                    console.log("音乐已暂停");
-                }
-            }
-
-            // 绑定点击事件
-            playPauseButton.onclick = toggleMusic;
-        });
-
-        // 主题切换功能
-        document.addEventListener('DOMContentLoaded', function() {
-            const themeToggle = document.getElementById('theme-toggle');
-            const settingsBtn = document.getElementById('settings-btn');
-            const settingsPanel = document.getElementById('settings-panel');
-            
-            // 从localStorage读取主题设置
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeToggle.checked = true;
-            }
-
-            // 主题切换处理
-            themeToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    localStorage.setItem('theme', 'light');
-                }
-            });
-
-            // 设置面板显示/隐藏
-            settingsBtn.addEventListener('click', function() {
-                settingsPanel.classList.toggle('show');
-            });
-
-            // 点击面板外部关闭面板
-            document.addEventListener('click', function(event) {
-                if (!settingsPanel.contains(event.target) && 
-                    !settingsBtn.contains(event.target)) {
-                    settingsPanel.classList.remove('show');
-                }
-            });
-        });
-
         // 聊天窗口控制函数
         function toggleChat() {
             const aiAssistant = document.querySelector('.ai-assistant');
@@ -323,46 +498,6 @@
             }
         }
 
-        // 修改AI助手拖动功能
-        let isDragging = false;
-        let currentX = 0;
-        let currentY = 0;
-        let initialX = 0;
-        let initialY = 0;
-        let xOffset = 0;
-        let yOffset = 0;
-
-        const aiAssistant = document.querySelector('.ai-assistant');
-        const chatHeader = document.querySelector('.chat-header');
-
-        function startDrag(e) {
-            if (e.target === chatHeader || e.target.parentNode === chatHeader) {
-                isDragging = true;
-                initialX = e.clientX;
-                initialY = e.clientY;
-            }
-        }
-
-        function drag(e) {
-            if (isDragging) {
-                e.preventDefault();
-                xOffset = e.clientX - initialX;
-                yOffset = e.clientY - initialY;
-                aiAssistant.style.left = (aiAssistant.offsetLeft + xOffset) + 'px';
-                aiAssistant.style.top = (aiAssistant.offsetTop + yOffset) + 'px';
-                initialX = e.clientX;
-                initialY = e.clientY;
-            }
-        }
-
-        function endDrag() {
-            isDragging = false;
-        }
-
-        chatHeader.addEventListener('mousedown', startDrag);
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('mouseup', endDrag);
-
         // 监听回车键发送消息
         document.getElementById('user-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -376,6 +511,152 @@
             e.preventDefault();
             document.querySelector('#footer').scrollIntoView({ 
                 behavior: 'smooth'
+            });
+        });
+
+        // 语言切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelect = document.getElementById('language-select');
+            
+            // 加载已保存的语言设置
+            const savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage) {
+                languageSelect.value = savedLanguage;
+                changeLanguage(savedLanguage);
+            }
+
+            // 监听语言选择变化
+            languageSelect.addEventListener('change', function() {
+                const selectedLanguage = this.value;
+                localStorage.setItem('selectedLanguage', selectedLanguage);
+                changeLanguage(selectedLanguage);
+            });
+        });
+
+        // 切换语言函数
+        function changeLanguage(language) {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[language] && translations[language][key]) {
+                    element.textContent = translations[language][key];
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const settingsBtn = document.getElementById('settings-btn');
+            const settingsPanel = document.getElementById('settings-panel');
+            const languageSelect = document.getElementById('language-select');
+            const themeToggle = document.getElementById('theme-toggle');
+
+            // 初始化主题设置
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.checked = true;
+            }
+
+            // 设置按钮点击事件
+            settingsBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                settingsPanel.classList.toggle('show');
+            });
+
+            // 点击其他地方关闭面板
+            document.addEventListener('click', function(event) {
+                if (!settingsPanel.contains(event.target) && 
+                    !settingsBtn.contains(event.target)) {
+                    settingsPanel.classList.remove('show');
+                }
+            });
+
+            // 主题切换
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            // 语言切换
+            const savedLanguage = localStorage.getItem('selectedLanguage');
+            if (savedLanguage) {
+                languageSelect.value = savedLanguage;
+                updatePageLanguage(savedLanguage);
+            }
+
+            languageSelect.addEventListener('change', function() {
+                const selectedLanguage = this.value;
+                localStorage.setItem('selectedLanguage', selectedLanguage);
+                updatePageLanguage(selectedLanguage);
+            });
+        });
+
+        function updatePageLanguage(language) {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[language] && translations[language][key]) {
+                    element.textContent = translations[language][key];
+                }
+            });
+        }
+
+        // 植物养护知识数据
+        const plantCareData = {
+            "发财树": "发财树喜欢明亮散射光，浇水适中，春秋季节每周浇水2-3次。",
+            "金钱树": "金钱树喜欢半阴环境，保持土壤微湿，忌积水。",
+            "空气凤梨": "空气凤梨不需要土壤，每周喷水1-2次，保持通风。",
+            "栀子花": "栀子花喜欢酸性土壤，需要充足光照，保持土壤湿润。",
+            "康乃馨": "康乃馨需要充足阳光，土壤要疏松透气，定期施肥。",
+            "月季": "月季喜阳光充足，春季修剪，经常松土，适时施肥。",
+            "三角梅": "三角梅耐旱耐热，需要充足阳光，控制浇水量。",
+            "太阳花": "太阳花喜欢阳光充足，耐旱耐热，少量多次浇水。",
+            "美酒白掌": "白掌喜欢散射光，保持土壤湿润，忌阳光直射。",
+            "蝴蝶兰": "蝴蝶兰喜半阴环境，保持土壤湿润，忌积水。",
+            "石斛": "石斛喜半阴环境，保持土壤湿润，忌阳光直射。",
+            "富贵竹": "富贵竹喜半阴环境，保持土壤湿润透气，忌阳光直射。",
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.getElementById('searchBox');
+            const docItems = document.querySelectorAll('.doc-item');
+            
+            searchBox.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                // 搜索文档标题和描述
+                docItems.forEach(item => {
+                    const title = item.querySelector('.doc-title').textContent.toLowerCase();
+                    const desc = item.querySelector('.doc-desc').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+
+                // 搜索植物养护知识
+                const resultsContainer = document.querySelector('.search-results');
+                resultsContainer.innerHTML = '';
+
+                Object.entries(plantCareData).forEach(([plant, care]) => {
+                    if (plant.toLowerCase().includes(searchTerm) || 
+                        care.toLowerCase().includes(searchTerm)) {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'result-item show';
+                        resultItem.innerHTML = `
+                            <h3>${plant}</h3>
+                            <p>${care}</p>
+                        `;
+                        resultsContainer.appendChild(resultItem);
+                    }
+                });
             });
         });
     </script>
