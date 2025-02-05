@@ -639,6 +639,118 @@
             background: linear-gradient(45deg, #ff6666, #ff3333);
             box-shadow: 0 2px 4px rgba(255, 102, 102, 0.2);
         }
+
+        /* 用户故事按钮样式 */
+        .story-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .story-btn:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+        }
+
+        /* 故事弹窗样式 */
+        .story-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .story-content {
+            background-color: var(--background-color);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: left;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            animation: modalShow 0.3s ease;
+        }
+
+        .story-content h3 {
+            color: var(--primary-color);
+            margin: 0 0 15px 0;
+        }
+
+        .story-content p {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .close-story {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-story:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+        }
+
+        /* 清香淡雅标签样式 */
+        .elegant-tag {
+            background: linear-gradient(45deg, #ffb6c1, #ffc0cb, #ffd1dc);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+            display: inline-block;
+            vertical-align: middle;
+            box-shadow: 0 2px 4px rgba(255, 182, 193, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        [data-theme="dark"] .elegant-tag {
+            background: linear-gradient(45deg, #ffb6c1, #ffc0cb, #ffe4e1);
+            box-shadow: 0 2px 4px rgba(255, 182, 193, 0.2);
+        }
+
+        /* 页脚样式 */
+        .footer-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        [data-theme="dark"] .footer-title {
+            color: var(--secondary-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
     </style>
 </head>
 
@@ -675,7 +787,10 @@
                 <p class="flower-description">精选新鲜玫瑰，搭配满天星和绿叶，是表达爱意的完美选择。</p>
                 <div class="flower-bottom">
                     <p class="flower-price">¥3</p>
-                    <button class="order-btn" onclick="orderFlower('玫瑰花束', 3)">选购</button>
+                    <div class="button-group">
+                        <button class="story-btn" onclick="showStory('rose')">用户故事</button>
+                        <button class="order-btn" onclick="orderFlower('玫瑰花束', 3)">选购</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -690,7 +805,10 @@
                 <p class="flower-description">高雅的兰花品种，花朵如蝴蝶翩翩起舞，是室内观赏植物的首选。</p>
                 <div class="flower-bottom">
                     <p class="flower-price">¥168</p>
-                    <button class="order-btn" onclick="orderFlower('蝴蝶兰', 168)">选购</button>
+                    <div class="button-group">
+                        <button class="story-btn" onclick="showStory('orchid')">用户故事</button>
+                        <button class="order-btn" onclick="orderFlower('蝴蝶兰', 168)">选购</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -705,7 +823,10 @@
                 <p class="flower-description">形态各异，色彩丰富，耐旱好养，是桌面摆放的理想选择。</p>
                 <div class="flower-bottom">
                     <p class="flower-price">¥3</p>
-                    <button class="order-btn" onclick="orderFlower('多肉植物', 3)">选购</button>
+                    <div class="button-group">
+                        <button class="story-btn" onclick="showStory('succulent')">用户故事</button>
+                        <button class="order-btn" onclick="orderFlower('多肉植物', 3)">选购</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -720,7 +841,47 @@
                 <p class="flower-description">既是观赏植物又具药用价值，花朵清雅，生命力顽强。</p>
                 <div class="flower-bottom">
                     <p class="flower-price">¥10</p>
-                    <button class="order-btn" onclick="orderFlower('石斛', 10)">选购</button>
+                    <div class="button-group">
+                        <button class="story-btn" onclick="showStory('dendrobium')">用户故事</button>
+                        <button class="order-btn" onclick="orderFlower('石斛', 10)">选购</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 店长推荐和特惠商品后面，招财寓意商品前面 -->
+        <div class="flower-card">
+            <img src="flower2.jpg" alt="百合花束" class="flower-image">
+            <div class="flower-info">
+                <h3 class="flower-name">
+                    优雅百合束
+                    <span class="elegant-tag">清香淡雅</span>
+                </h3>
+                <p class="flower-description">纯洁的百合花搭配优雅配花，散发淡雅清香，适合各种正式场合。</p>
+                <div class="flower-bottom">
+                    <p class="flower-price">¥8</p>
+                    <div class="button-group">
+                        <button class="story-btn" onclick="showStory('lily')">用户故事</button>
+                        <button class="order-btn" onclick="orderFlower('百合花束', 8)">选购</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flower-card">
+            <img src="栀子花.png" alt="栀子花" class="flower-image">
+            <div class="flower-info">
+                <h3 class="flower-name">
+                    芬香栀子花
+                    <span class="elegant-tag">清香淡雅</span>
+                </h3>
+                <p class="flower-description">花朵洁白芳香，象征纯洁与永恒的爱情。</p>
+                <div class="flower-bottom">
+                    <p class="flower-price">¥13</p>
+                    <div class="button-group">
+                        <button class="story-btn" onclick="showStory('gardenia')">用户故事</button>
+                        <button class="order-btn" onclick="orderFlower('栀子花', 13)">选购</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -736,7 +897,10 @@
                 <p class="flower-description">发财树寓意招财进宝，叶片油亮肥厚，适合办公室和家居摆放。</p>
                 <div class="flower-bottom">
                     <p class="flower-price">¥18</p>
-                    <button class="order-btn" onclick="orderFlower('发财树', 18)">选购</button>
+                    <div class="button-group">
+                        <button class="story-btn" onclick="showStory('fortune')">用户故事</button>
+                        <button class="order-btn" onclick="orderFlower('发财树', 18)">选购</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -751,7 +915,10 @@
                 <p class="flower-description">金钱树叶片圆润如铜钱，象征财运亨通，是风水植物的上佳之选。</p>
                 <div class="flower-bottom">
                     <p class="flower-price">¥108</p>
-                    <button class="order-btn" onclick="orderFlower('金钱树', 108)">选购</button>
+                    <div class="button-group">
+                        <button class="story-btn" onclick="showStory('money')">用户故事</button>
+                        <button class="order-btn" onclick="orderFlower('金钱树', 108)">选购</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -777,18 +944,6 @@
                 <div class="flower-bottom">
                     <p class="flower-price">¥6</p>
                     <button class="order-btn" onclick="orderFlower('空气凤梨', 6)">选购</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="flower-card">
-            <img src="栀子花.png" alt="栀子花" class="flower-image">
-            <div class="flower-info">
-                <h3 class="flower-name">芬香栀子花</h3>
-                <p class="flower-description">花朵洁白芳香，象征纯洁与永恒的爱情。</p>
-                <div class="flower-bottom">
-                    <p class="flower-price">¥13</p>
-                    <button class="order-btn" onclick="orderFlower('栀子花', 13)">选购</button>
                 </div>
             </div>
         </div>
@@ -924,27 +1079,15 @@
                 </div>
             </div>
         </div>
-
-        <div class="flower-card">
-            <img src="flower2.jpg" alt="百合花束" class="flower-image">
-            <div class="flower-info">
-                <h3 class="flower-name">优雅百合束</h3>
-                <p class="flower-description">纯洁的百合花搭配优雅配花，散发淡雅清香，适合各种正式场合。</p>
-                <div class="flower-bottom">
-                    <p class="flower-price">¥8</p>
-                    <button class="order-btn" onclick="orderFlower('百合花束', 8)">选购</button>
-                </div>
-            </div>
-        </div>
     </main>
 
     <!-- AI花草知识助手 -->
-    <div class="ai-assistant">
+    <div class="ai-assistant collapsed">
         <div class="chat-header">
             <h3>AI花草知识助手</h3>
             <button class="toggle-chat-btn" id="toggle-icon" onclick="toggleChat()">△</button>
         </div>
-        <div class="chat-body" id="chat-body">
+        <div class="chat-body collapsed" id="chat-body">
             <div class="chat-messages" id="chat-messages"></div>
             <div class="chat-input">
                 <input type="text" id="user-input" placeholder="输入你的问题">
@@ -956,6 +1099,7 @@
     <!-- 网站底部 -->
     <footer id="footer">
         <div class="footer-content">
+            <h3 class="footer-title">联系我们</h3>
             <div class="footer-info">
                 <p>&copy; 2025 金沙洲花语花店 版权所有</p>
                 <p>联系电话：13600071086 邮箱：yansirui_813@163.com</p>
@@ -1030,6 +1174,15 @@
                 <button class="confirm-btn secondary" onclick="closeConfirmModal()">返回修改</button>
                 <button class="confirm-btn primary" onclick="submitOrder()">确认下单</button>
             </div>
+        </div>
+    </div>
+
+    <!-- 故事弹窗 -->
+    <div id="storyModal" class="story-modal">
+        <div class="story-content">
+            <h3 id="storyTitle"></h3>
+            <p id="storyText"></p>
+            <button class="close-story" onclick="closeStory()">关闭</button>
         </div>
     </div>
 
@@ -1295,6 +1448,59 @@
             const confirmModal = document.getElementById('confirmModal');
             confirmModal.style.display = 'none';
             alert('订单已提交成功！我们的客服将尽快与您联系。');
+        }
+
+        // 用户故事数据
+        const stories = {
+            rose: {
+                title: "浪漫玫瑰的见证",
+                text: "去年七夕，我在这里买了一束玫瑰送给女朋友。花店老板很用心地为我搭配了满天星和绿叶，让玫瑰看起来更加浪漫。当我把花束送给女朋友时，她感动得流下了眼泪。现在我们已经结婚了，每逢纪念日，我都会来这里买同样的花束。\n\n—— 匿名用户"
+            },
+            orchid: {
+                title: "蝴蝶兰的馈赠",
+                text: "我是一名办公室白领，去年在这里买了一盆蝴蝶兰放在办公桌上。每天看着它优雅的姿态，心情都会变得很好。同事们都说我的工位成了办公室最漂亮的角落。这盆蝴蝶兰已经开了三次花，每次都让整个办公室充满了生机。\n\n—— 匿名用户"
+            },
+            succulent: {
+                title: "多肉的治愈",
+                text: "作为一个园艺初学者，我从这家花店买了人生第一盆多肉。店主很耐心地教我如何养护，让我对植物产生了浓厚的兴趣。现在我的窗台上已经有了一个小小的多肉花园，每天看着它们都会感到很治愈。\n\n—— 匿名用户"
+            },
+            dendrobium: {
+                title: "石斛的传承",
+                text: "我的母亲一直很喜欢石斛，说它既能观赏又能做药茶。在这家花店买的石斛不仅品相好，还附带了详细的养护说明。现在这盆石斛已经在我家生长了两年，每次开花都特别漂亮。\n\n—— 匿名用户"
+            },
+            fortune: {
+                title: "发财树的好运",
+                text: "去年开店时，朋友送了我一棵从这里买的发财树。这棵发财树长势特别好，不到一年就长高了一大截。更神奇的是，自从有了它，店里的生意也越来越好。现在我也经常推荐客户来这里买发财树。\n\n—— 匿名用户"
+            },
+            money: {
+                title: "金钱树的祝福",
+                text: "我在这里买了一棵金钱树送给刚开公司的表弟。一年多过去了，他的公司蒸蒸日上，那棵金钱树也长得枝繁叶茂。每次去他公司，都能看到这棵金钱树在门口迎接着每一位客人。\n\n—— 匿名用户"
+            },
+            lily: {
+                title: "百合的祝福",
+                text: "去年母亲节，我在这里订了一束百合。店主特意挑选了最新鲜的花朵，还搭配了清新的绿叶。当我把花束送给妈妈时，淡淡的清香让整个房间都充满了温馨的气息。妈妈说这是她收到过最优雅的礼物，现在这束干花还保存在她的书房里。\n\n—— 匿名用户"
+            },
+            gardenia: {
+                title: "栀子花的芬芳",
+                text: "在这里买了一盆栀子花放在卧室窗台，每天早晨都能闻到淡淡的清香。花开的时候，整个房间都弥漫着栀子花特有的芳香，让人心情愉悦。朋友来访时都说，这香气让她想起了老家的院子。\n\n—— 匿名用户"
+            }
+        };
+
+        // 显示故事弹窗
+        function showStory(type) {
+            const modal = document.getElementById('storyModal');
+            const title = document.getElementById('storyTitle');
+            const text = document.getElementById('storyText');
+            
+            title.textContent = stories[type].title;
+            text.textContent = stories[type].text;
+            modal.style.display = 'flex';
+        }
+
+        // 关闭故事弹窗
+        function closeStory() {
+            const modal = document.getElementById('storyModal');
+            modal.style.display = 'none';
         }
     </script>
 </body>
