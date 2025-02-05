@@ -585,42 +585,6 @@ footer a:hover {
     }
 }
 
-/* 背景音乐控制按钮样式 */
-#music-control {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
-
-#play-pause {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-#play-pause:hover {
-    background-color: var(--button-hover-color);
-    transform: scale(1.05);
-}
-
-#play-pause:active {
-    transform: scale(0.95);
-}
-
-#play-pause.playing {
-    background-color: var(--secondary-color);
-}
-
 /* 设置按钮样式 */
 .settings-btn {
     position: fixed;
@@ -639,6 +603,9 @@ footer a:hover {
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 1.2rem;
+    padding: 0;
+    line-height: 1;
 }
 
 .settings-btn:hover {
@@ -689,14 +656,30 @@ footer a:hover {
 }
 
 .theme-switch input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
+    margin: 0;
     cursor: pointer;
+    accent-color: #ff69b4;  /* 使用更鲜艳的粉色 */
+    border: 2px solid #ff69b4;
+    border-radius: 3px;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
-[data-theme="dark"] .theme-switch {
-    background: var(--light-background-color);
-    border-color: var(--primary-color);
+.theme-switch input[type="checkbox"]:checked {
+    background-color: #ff69b4;
+    border-color: #ff69b4;
+}
+
+[data-theme="dark"] .theme-switch input[type="checkbox"] {
+    accent-color: #ff8fab;  /* 深色模式下使用较浅的粉色 */
+    border-color: #ff8fab;
+}
+
+[data-theme="dark"] .theme-switch input[type="checkbox"]:checked {
+    background-color: #ff8fab;
+    border-color: #ff8fab;
 }
 
 /* 移除旧的开关样式 */
