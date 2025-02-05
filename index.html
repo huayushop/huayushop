@@ -270,6 +270,10 @@
                     settingsPanel.classList.remove('show');
                 }
             });
+
+            // 设置初始图标
+            const toggleIcon = document.getElementById('toggle-icon');
+            toggleIcon.textContent = 'AI';
         });
     </script>
 </head>
@@ -339,12 +343,12 @@
         </div>
     </div>
     <!-- AI花草知识助手 -->
-    <div class="ai-assistant">
+    <div class="ai-assistant collapsed">
         <div class="chat-header">
             <h3>AI花草知识助手</h3>
             <button class="toggle-chat-btn" id="toggle-icon" onclick="toggleChat()">△</button>
         </div>
-        <div class="chat-body" id="chat-body">
+        <div class="chat-body collapsed" id="chat-body">
             <div class="chat-messages" id="chat-messages"></div>
             <div class="chat-input">
                 <input type="text" id="user-input" placeholder="输入你的问题">
@@ -355,6 +359,7 @@
     <!-- 网站底部 -->
     <footer id="footer">
         <div class="footer-content">
+            <h3 class="footer-title">联系我们</h3>
             <div class="footer-info">
                 <p>&copy; 2025 金沙洲花语花店 版权所有</p>
                 <p>联系电话：13600071086 邮箱：yansirui_813@163.com</p>
