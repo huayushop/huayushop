@@ -107,6 +107,15 @@
         [data-theme="dark"] .special-thanks {
             color: #ff8fab;  /* 深色模式下使用较浅的粉色 */
         }
+
+        /* 用户评价样式 */
+        .review-item {
+            margin-bottom: 30px;  /* 增加底部间距 */
+        }
+
+        .review-item:last-child {
+            margin-bottom: 0;  /* 最后一个评价不需要底部间距 */
+        }
     </style>
     <script>
         // 聊天窗口控制函数
@@ -302,31 +311,31 @@
     </div>
     <!-- 热门花束推荐 -->
     <div class="hot-flowers">
-        <h2>热门花束推荐  *请在"花束展示"界面选购</h2>
+        <h2>热门花束推荐</h2>
         <div class="flower-container">
             <div class="flower-item">
                 <img src="flower1.jpg" alt="花束1">
                 <h3>浪漫玫瑰束</h3>
                 <p>由新鲜红玫瑰组成，象征着热烈的爱情。</p>
-                <p class="price">价格：3 元</p>
+                <p class="price">价格：288 元</p>
             </div>
             <div class="flower-item">
                 <img src="flower2.jpg" alt="花束2">
                 <h3>优雅百合束</h3>
                 <p>洁白的百合，散发着淡雅的清香。</p>
-                <p class="price">价格：8 元</p>
+                <p class="price">价格：188 元</p>
             </div>
             <div class="flower-item">
                 <img src="flower3.jpg" alt="花束3">
                 <h3>温馨康乃馨束</h3>
                 <p>粉色康乃馨传递着温馨与关爱。</p>
-                <p class="price">价格：8 元</p>
+                <p class="price">价格：128 元</p>
             </div>
             <div class="flower-item">
                 <img src="flower4.jpg" alt="花束4">
                 <h3>神秘紫罗兰束</h3>
                 <p>紫色紫罗兰散发着神秘的气息。</p>
-                <p class="price">价格：8 元</p>
+                <p class="price">价格：228 元</p>
             </div>
         </div>
     </div>
